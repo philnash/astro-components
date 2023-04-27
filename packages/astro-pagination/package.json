@@ -5,9 +5,6 @@
   "exports": {
     ".": "./index.ts"
   },
-  "devDependencies": {
-    "cheerio": "^1.0.0-rc.12"
-  },
   "type": "module",
   "scripts": {
     "test": "node --test"
@@ -20,6 +17,25 @@
     "a11y",
     "accessibility"
   ],
+  "files": [
+    "src",
+    "index.ts"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/philnash/astro-components.git"
+  },
+  "homepage": "https://github.com/philnash/astro-components/tree/main/packages/astro-pagination ",
+  "bugs": {
+    "url": "https://github.com/philnash/astro-components/issues"
+  },
   "author": "Phil Nash <philnash@gmail.com> (https://philna.sh/)",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "astro": "^2.0.0",
+    "cheerio": "^1.0.0-rc.12"
+  },
+  "peerDependencies": {
+    "astro": "^2.3.0"
+  }
 }
