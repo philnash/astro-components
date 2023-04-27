@@ -1,7 +1,7 @@
 <div style="text-align:center" align="center">
   <h1>🚀 Astro Pagination 🚀</h1>
 
-  <p><em>A flexible, accessible `<Pagination>` component for displaying links to next, previous, first, last and a window of pages in your Astro site.</em></p>
+  <p><em>A flexible, accessible <code>&lt;Pagination&gt;</code> component for displaying links to next, previous, first, last and a window of pages in your Astro site.</em></p>
 </div>
 
 * [Installation](#installation)
