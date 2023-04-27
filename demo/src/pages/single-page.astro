@@ -1,0 +1,35 @@
+---
+import Pagination from "@philnash/astro-pagination";
+import type { Page } from "astro";
+
+const page: Page<undefined> = {
+  data: [],
+  start: 0,
+  end: 10,
+  total: 1,
+  currentPage: 1,
+  size: 10,
+  lastPage: 1,
+  url: {
+    current: Astro.url.pathname,
+    prev: undefined,
+    next: undefined,
+  },
+};
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Astro</title>
+  </head>
+  <body>
+    <h1>Astro</h1>
+    <div id="test">
+      <Pagination page={page} urlPattern="/pages/{}" />
+    </div>
+  </body>
+</html>

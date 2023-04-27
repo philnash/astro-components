@@ -1,0 +1,11 @@
+---
+export type Props = {
+  pageNumber: number;
+};
+
+const { pageNumber } = Astro.props;
+---
+
+<em aria-current="page" aria-label={`Current page, page ${pageNumber}`}>
+  {pageNumber}
+</em>
