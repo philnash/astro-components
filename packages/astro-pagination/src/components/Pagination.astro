@@ -55,7 +55,7 @@ const previousUrl =
     {
       firstPageInRange && firstPageInRange > 2 && (
         <li>
-          <Ellipsis />
+          <Ellipsis position="start" />
         </li>
       )
     }
@@ -79,7 +79,7 @@ const previousUrl =
     {
       lastPageInRange < page.lastPage - 1 && (
         <li>
-          <Ellipsis />
+          <Ellipsis position="end" />
         </li>
       )
     }

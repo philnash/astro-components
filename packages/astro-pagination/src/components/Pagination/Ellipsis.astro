@@ -1,1 +1,9 @@
-<span>&hellip;</span>
+---
+export type Props = {
+  position: "start" | "end";
+};
+
+const { position } = Astro.props;
+---
+
+<span class={`${position}-ellipsis`}>&hellip;</span>
