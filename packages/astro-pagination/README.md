@@ -62,7 +62,7 @@ The above code will render a result like:
       <a class="number" href="/blog/page" aria-label="Go to page 1"> 1 </a>
     </li>
     <li>
-      <span>…</span>
+      <span class="start-ellipsis">…</span>
     </li>
     <li>
       <a class="number" href="/blog/page/3" aria-label="Go to page 3"> 3 </a>
@@ -80,7 +80,7 @@ The above code will render a result like:
       <a class="number" href="/blog/page/7" aria-label="Go to page 7"> 7 </a>
     </li>
     <li>
-      <span>…</span>
+      <span class="end-ellipsis">…</span>
     </li>
     <li>
       <a class="number" href="/blog/page/10" aria-label="Go to page 10"> 10 </a>
@@ -165,7 +165,7 @@ This would create something like:
       <a class="number" href="/items" aria-label="Go to page 1"> 1 </a>
     </li>
     <li>
-      <span>…</span>
+      <span class="start-ellipsis">…</span>
     </li>
     <li>
       <a class="number" href="/blog/page/4" aria-label="Go to page 4"> 4 </a>
@@ -177,7 +177,7 @@ This would create something like:
       <a class="number" href="/blog/page/6" aria-label="Go to page 6"> 6 </a>
     </li>
     <li>
-      <span>…</span>
+      <span class="end-ellipsis">…</span>
     </li>
     <li>
       <a class="number" href="/blog/page/10" aria-label="Go to page 10"> 10 </a>
