@@ -32,10 +32,10 @@
   "author": "Phil Nash <philnash@gmail.com> (https://philna.sh/)",
   "license": "MIT",
   "devDependencies": {
-    "astro": "^2.0.0",
+    "astro": "^3.2.2",
     "cheerio": "^1.0.0-rc.12"
   },
   "peerDependencies": {
-    "astro": "^2.3.0"
+    "astro": "^2.3.0 || ^3.0.0"
   }
 }

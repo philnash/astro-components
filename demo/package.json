@@ -11,7 +11,7 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@philnash/astro-pagination": "^0.1.0",
-    "astro": "^2.3.1"
+    "@philnash/astro-pagination": "file:../packages/astro-pagination",
+    "astro": "^3.2.2"
   }
 }
