@@ -1,6 +1,6 @@
 {
   "name": "@philnash/astro-pagination",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "A flexible, accessible pagination component for displaying links to next, previous, first, last and a window of pages in your Astro site.",
   "exports": {
     ".": "./index.ts"
