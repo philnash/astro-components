@@ -12,6 +12,6 @@
   },
   "dependencies": {
     "@philnash/astro-pagination": "file:../packages/astro-pagination",
-    "astro": "^5.2.6"
+    "astro": "^6.0.8"
   }
 }
