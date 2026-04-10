@@ -103,7 +103,6 @@ export type ResolvedIntegrationOptions = {
   embeddings: ResolvedEmbeddingsOptions;
   generation: ResolvedGenerationOptions;
   rootDir: string;
-  runtimeModulePath: string;
   vectorCachePath: string;
 };
 

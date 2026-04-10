@@ -1,5 +1,3 @@
-import { access } from "node:fs/promises";
-
 import type { AstroIntegration } from "astro";
 import type { Plugin } from "vite";
 
@@ -10,7 +8,6 @@ import {
 } from "./constants.ts";
 import { generateRelatedContent } from "./generator.ts";
 import { resolveIntegrationOptions } from "./options.ts";
-import { buildInjectedTypes } from "./runtime-types.ts";
 import { createGenerationScheduler } from "./scheduler.ts";
 import { toPosixPath } from "./serialize.ts";
 import type {
@@ -41,17 +38,58 @@ function isContentFile(
   );
 }
 
+function buildVirtualModuleSource(dataModulePath: string): string {
+  return `import { getCollection } from "astro:content";
+import { relatedContentData } from ${JSON.stringify(
+    `/@fs/${toPosixPath(dataModulePath)}`,
+  )};
+
+function normalizeCollectionEntryId(id) {
+  return String(id).replace(/\\.(md|mdx)$/, "");
+}
+
+export function getRelatedContentMatches(collection, id) {
+  const collectionData = relatedContentData[collection];
+  if (!collectionData) {
+    return [];
+  }
+
+  const matches = collectionData[id];
+  return Array.isArray(matches) ? matches.map((match) => ({ ...match })) : [];
+}
+
+export function getRelatedContentIds(collection, id) {
+  return getRelatedContentMatches(collection, id).map((match) => match.id);
+}
+
+export async function getRelatedContent(collection, id) {
+  const matches = getRelatedContentMatches(collection, id);
+  const entries = await getCollection(collection);
+  const entryById = new Map(
+    entries.flatMap((entry) => {
+      const normalizedId = normalizeCollectionEntryId(entry.id);
+      return normalizedId === entry.id
+        ? [[entry.id, entry]]
+        : [[entry.id, entry], [normalizedId, entry]];
+    }),
+  );
+
+  return matches.flatMap((match) => {
+    const entry = entryById.get(match.id);
+    return entry ? [{ entry, score: match.score }] : [];
+  });
+}
+`;
+}
+
 function createViteVirtualModulePlugin(state: IntegrationState): Plugin {
   return {
-    async load(id) {
+    load(id) {
       if (id !== RESOLVED_VIRTUAL_MODULE_ID || !state.options) {
         return undefined;
       }
 
-      await access(state.options.runtimeModulePath);
-      return `export * from ${JSON.stringify(
-        `/@fs/${toPosixPath(state.options.runtimeModulePath)}`,
-      )};`;
+      return buildVirtualModuleSource(state.options.dataModulePath);
     },
     name: `${INTEGRATION_NAME}:virtual-module`,
     resolveId(id) {
@@ -71,12 +109,6 @@ export function createIntegration(
 
   return {
     hooks: {
-      "astro:config:done"({ injectTypes }) {
-        injectTypes({
-          content: buildInjectedTypes(),
-          filename: "astro-related-content.d.ts",
-        });
-      },
       async "astro:config:setup"(params) {
         state.options = resolveIntegrationOptions(userOptions, {
           codegenDirUrl: params.createCodegenDir(),

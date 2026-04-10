@@ -125,7 +125,7 @@ export function resolveIntegrationOptions(
   return {
     codegenDir,
     collections: resolveCollections(rootDir, collections),
-    dataModulePath: join(codegenDir, "data.mjs"),
+    dataModulePath: join(codegenDir, "data.ts"),
     embeddings: {
       batchSize: embeddings.batchSize ?? 1,
       input: embeddings,
@@ -133,7 +133,6 @@ export function resolveIntegrationOptions(
     },
     generation,
     rootDir,
-    runtimeModulePath: join(codegenDir, "runtime.mjs"),
     vectorCachePath: join(generation.cacheDir, "vectors.json"),
   };
 }

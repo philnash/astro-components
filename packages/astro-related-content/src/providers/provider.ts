@@ -1,15 +1,10 @@
 import type { EmbeddingProvider, EmbeddingsInput } from "../types.ts";
 
-type EmbeddingProviderDefinition<
-  TOptions,
-  TInput extends EmbeddingsInput,
-> = EmbeddingProvider<TOptions, TInput>;
-
 export function createEmbeddingProvider<
   TOptions = Record<string, unknown>,
   TInput extends EmbeddingsInput = EmbeddingsInput,
 >(
-  definition: EmbeddingProviderDefinition<TOptions, TInput>,
+  definition: EmbeddingProvider<TOptions, TInput>,
 ): EmbeddingProvider<TOptions, TInput> {
   if (!definition || typeof definition !== "object") {
     throw new Error("Expected an embedding provider definition object.");

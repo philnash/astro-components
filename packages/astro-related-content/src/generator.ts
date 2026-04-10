@@ -2,7 +2,6 @@ import { mkdir, readFile } from "node:fs/promises";
 
 import { GENERATOR_VERSION } from "./constants.ts";
 import { readContentSources } from "./content.ts";
-import { buildRuntimeDataModule, buildRuntimeModule } from "./runtime-module.ts";
 import { stableSortObject, stableStringify, writeFileAtomic } from "./serialize.ts";
 import type {
   ContentItem,
@@ -21,6 +20,10 @@ type GenerationLogger = (message: string) => void;
 type GenerateRelatedContentHooks = {
   logger?: GenerationLogger;
 };
+
+function buildRuntimeDataModule(data: RelatedContentData): string {
+  return `export const relatedContentData = ${stableStringify(data)};\n`;
+}
 
 function normalizeVector(vector: number[]): number[] {
   const magnitude = Math.sqrt(
@@ -286,7 +289,6 @@ export async function generateRelatedContent(
   );
 
   await writeFileAtomic(options.dataModulePath, buildRuntimeDataModule(relatedContentData));
-  await writeFileAtomic(options.runtimeModulePath, buildRuntimeModule());
   await writeFileAtomic(
     options.vectorCachePath,
     `${stableStringify({
