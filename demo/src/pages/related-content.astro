@@ -1,0 +1,23 @@
+---
+import { getRelatedContent } from "virtual:astro-related-content";
+
+const relatedContent = await getRelatedContent("articles", "vector-ranking");
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Related Content</title>
+  </head>
+  <body>
+    <h1>Related Content</h1>
+    <ul id="related-content">
+      {relatedContent.map((match) => (
+        <li data-score={match.score}>{match.entry.data.title}</li>
+      ))}
+    </ul>
+  </body>
+</html>

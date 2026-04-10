@@ -1,10 +1,9 @@
 import { defineConfig } from "astro/config";
 import mdx from "@astrojs/mdx";
 
-import astroRelatedContent from "@philnash/astro-related-content";
-import { createFixtureEmbeddingProvider } from "@philnash/astro-related-content/testing";
+import astroRelatedContent from "../../../index.ts";
+import { createFixtureEmbeddingProvider } from "../../../testing.ts";
 
-// https://astro.build/config
 export default defineConfig({
   integrations: [
     mdx(),

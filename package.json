@@ -9,17 +9,20 @@
     "astro-component"
   ],
   "scripts": {
-    "test": "npm run build && npm test --workspace=packages",
+    "test": "npm run build && npm test --workspace=packages/astro-pagination --workspace=packages/astro-related-content",
     "build": "npm run build -w=demo"
   },
   "devDependencies": {
-    "astro": "^2.3.1"
+    "@astrojs/mdx": "^5.0.0",
+    "@astrojs/internal-helpers": "^0.8.0",
+    "astro": "^6.0.8"
   },
   "peerDependencies": {
-    "astro": "^2.0.0-beta.0 || ^3.0.0 || ^4.0.0 || ^5.0.0"
+    "astro": "^6.0.0 || ^7.0.0"
   },
   "workspaces": [
     "packages/astro-pagination",
+    "packages/astro-related-content",
     "demo"
   ],
   "license": "MIT"

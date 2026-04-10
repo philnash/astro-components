@@ -1,0 +1,17 @@
+---
+import { getRelatedContent } from "virtual:astro-related-content";
+
+const relatedContent = await getRelatedContent("articles", "semantic-search");
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Fixture App</title>
+  </head>
+  <body>
+    <ul id="related-content">
+      {relatedContent.map((match) => <li>{match.entry.data.title}</li>)}
+    </ul>
+  </body>
+</html>

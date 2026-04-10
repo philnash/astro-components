@@ -9,6 +9,7 @@
 Please see each component's README for installation and usage instructions. The available components are:
 
 * [@philnash/astro-pagination](./packages/astro-pagination/): A flexible, accessible `<Pagination>` component for displaying links to next, previous, first, last and a window of pages in your Astro site
+* [@philnash/astro-related-content](./packages/astro-related-content/): An Astro integration that generates related-content data for Markdown and MDX sources
 
 More to come!
 

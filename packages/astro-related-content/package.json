@@ -1,0 +1,60 @@
+{
+  "name": "@philnash/astro-related-content",
+  "version": "0.1.0",
+  "description": "An Astro integration that generates semantically related content for Markdown and MDX sources.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./index.ts",
+      "import": "./index.ts"
+    },
+    "./testing": {
+      "types": "./testing.ts",
+      "import": "./testing.ts"
+    }
+  },
+  "types": "./index.ts",
+  "scripts": {
+    "test": "node --test test/*.test.ts"
+  },
+  "keywords": [
+    "astro",
+    "astro-integration",
+    "related-content",
+    "markdown",
+    "mdx",
+    "embeddings"
+  ],
+  "files": [
+    "index.ts",
+    "testing.ts",
+    "src",
+    "README.md"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/philnash/astro-components.git"
+  },
+  "homepage": "https://github.com/philnash/astro-components/tree/main/packages/astro-related-content",
+  "bugs": {
+    "url": "https://github.com/philnash/astro-components/issues"
+  },
+  "author": "Phil Nash <philnash@gmail.com> (https://philna.sh/)",
+  "license": "MIT",
+  "dependencies": {
+    "@huggingface/transformers": "^4.0.1",
+    "gray-matter": "^4.0.3",
+    "mdast-util-to-string": "^4.0.0",
+    "remark-mdx": "^3.1.1",
+    "remark-parse": "^11.0.0",
+    "tinyglobby": "^0.2.15",
+    "unified": "^11.0.5"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.29",
+    "typescript": "^5.7.3"
+  },
+  "peerDependencies": {
+    "astro": "^6.0.0 || ^7.0.0"
+  }
+}
