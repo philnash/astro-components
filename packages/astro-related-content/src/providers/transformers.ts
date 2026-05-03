@@ -1,5 +1,5 @@
 import { createRequire } from "node:module";
-import { join } from "node:path";
+import { isAbsolute, join, resolve } from "node:path";
 
 import { createEmbeddingProvider } from "./provider.ts";
 import type {
@@ -61,6 +61,16 @@ function createExtractorCacheKey(options: TransformersResolvedOptions): string {
     dtype: options.dtype,
     model: options.model,
   });
+}
+
+function resolveModelCacheDir(rootDir: string, modelCacheDir?: string): string {
+  if (!modelCacheDir) {
+    return join(rootDir, ".astro", "astro-related-content", "models");
+  }
+
+  return isAbsolute(modelCacheDir)
+    ? modelCacheDir
+    : resolve(rootDir, modelCacheDir);
 }
 
 async function getExtractor(
@@ -126,9 +136,10 @@ export function createTransformersEmbeddingProvider(): EmbeddingProvider<
         device: embeddings.device ?? "cpu",
         dtype: embeddings.dtype ?? "fp32",
         model: embeddings.model ?? "Xenova/all-MiniLM-L6-v2",
-        modelCacheDir:
-          embeddings.modelCacheDir ??
-          join(context.rootDir, ".astro", "astro-related-content", "models"),
+        modelCacheDir: resolveModelCacheDir(
+          context.rootDir,
+          embeddings.modelCacheDir,
+        ),
         pooling: embeddings.pooling ?? "mean",
       };
     },
