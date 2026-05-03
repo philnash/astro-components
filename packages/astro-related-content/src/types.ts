@@ -107,13 +107,10 @@ export type ResolvedIntegrationOptions = {
 };
 
 export type ContentItem = {
-  bodyText: string;
   collection: string;
-  filePath: string;
   hash: string;
   id: string;
   semanticInput: string;
-  title: string;
 };
 
 export type VectorCacheEntry = {

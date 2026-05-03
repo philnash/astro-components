@@ -74,13 +74,10 @@ export async function readContentSources(
       const semanticInput = createSemanticInput(title, bodyText);
 
       items.push({
-        bodyText,
         collection: collection.collection,
-        filePath,
         hash: createHashDigest(semanticInput),
         id,
         semanticInput,
-        title: title.trim(),
       });
     }
   }
