@@ -26,11 +26,16 @@
     "embeddings"
   ],
   "files": [
+    "CHANGELOG.md",
+    "LICENSE",
     "index.ts",
     "testing.ts",
     "src",
     "README.md"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/philnash/astro-components.git"
