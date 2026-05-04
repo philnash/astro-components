@@ -96,8 +96,27 @@ export default defineConfig({
   integrations: [
     astroRelatedContent({
       collections: [{ collection: "articles" }],
+    }),
+  ],
+});
+```
+
+This is equivalent to the default configuration:
+
+```js
+import { defineConfig } from "astro/config";
+import astroRelatedContent from "@philnash/astro-related-content";
+
+export default defineConfig({
+  integrations: [
+    astroRelatedContent({
+      collections: [{ collection: "articles" }],
       embeddings: {
-        provider: "transformers",
+        model: "Xenova/all-MiniLM-L6-v2",
+        device: "cpu",
+        dtype: "fp32",
+        pooling: "mean",
+        batchSize: 1,
       },
     }),
   ],
@@ -115,7 +134,6 @@ export default defineConfig({
     astroRelatedContent({
       collections: [{ collection: "articles" }],
       embeddings: {
-        provider: "transformers",
         model: "Xenova/all-MiniLM-L6-v2",
         device: "cpu",
         dtype: "fp32",
@@ -142,6 +160,84 @@ Notes:
 - The model is downloaded on first use and then reused from `modelCacheDir`.
 - `batchSize`, `model`, `device`, `dtype`, and `pooling` are part of the provider metadata, so changing them invalidates the stored vector cache and regenerates embeddings.
 - CPU inference is the default and the safest option for local development and CI.
+- `Xenova/all-MiniLM-L6-v2` is a compact default for short English text. The underlying Sentence Transformers model is intended for sentences and short paragraphs, and input longer than 256 word pieces is truncated by default. This integration currently embeds each content item as one string, so very long articles may be ranked mostly by their title and opening section.
+
+The following examples show how to configure a few other embedding models that can run through the built-in Transformers.js provider. Treat them as starting points: model size, context length, pooling strategy, and local runtime support vary between model families.
+
+### Qwen3 Embedding 0.6B
+
+For longer multilingual content, Qwen3 Embedding 0.6B is available through an ONNX model prepared for Transformers.js. It supports a much longer context window than MiniLM, but it is also substantially larger and slower to run locally.
+
+```js
+import { defineConfig } from "astro/config";
+import astroRelatedContent from "@philnash/astro-related-content";
+
+export default defineConfig({
+  integrations: [
+    astroRelatedContent({
+      collections: [{ collection: "articles" }],
+      embeddings: {
+        model: "onnx-community/Qwen3-Embedding-0.6B-ONNX",
+        dtype: "q8",
+        pooling: "last_token",
+        batchSize: 1,
+      },
+    }),
+  ],
+});
+```
+
+The original model is `Qwen/Qwen3-Embedding-0.6B`; the `onnx-community/Qwen3-Embedding-0.6B-ONNX` repository provides ONNX weights for Transformers.js.
+
+### Granite Embedding R2
+
+IBM's Granite Embedding R2 collection includes English and multilingual embedding models trained for retrieval. For an English content collection, the small English R2 model is available through a Transformers.js-compatible ONNX model.
+
+```js
+import { defineConfig } from "astro/config";
+import astroRelatedContent from "@philnash/astro-related-content";
+
+export default defineConfig({
+  integrations: [
+    astroRelatedContent({
+      collections: [{ collection: "articles" }],
+      embeddings: {
+        model: "onnx-community/granite-embedding-small-english-r2-ONNX",
+        dtype: "q8",
+        pooling: "cls",
+        batchSize: 1,
+      },
+    }),
+  ],
+});
+```
+
+The `onnx-community/granite-embedding-small-english-r2-ONNX` model is based on `ibm-granite/granite-embedding-small-english-r2`. Use `onnx-community/granite-embedding-english-r2-ONNX` for the larger English R2 model, or the `ibm-granite/granite-embedding-97m-multilingual-r2` and `ibm-granite/granite-embedding-311m-multilingual-r2` models if you need multilingual retrieval and can support their larger local runtime requirements.
+
+### EmbeddingGemma
+
+EmbeddingGemma is a compact multilingual embedding model from Google with a 2048-token context window. The Transformers.js-compatible ONNX model is `onnx-community/embeddinggemma-300m-ONNX`.
+
+```js
+import { defineConfig } from "astro/config";
+import astroRelatedContent from "@philnash/astro-related-content";
+
+export default defineConfig({
+  integrations: [
+    astroRelatedContent({
+      collections: [{ collection: "articles" }],
+      embeddings: {
+        model: "onnx-community/embeddinggemma-300m-ONNX",
+        dtype: "q8",
+        pooling: "mean",
+        batchSize: 1,
+      },
+    }),
+  ],
+});
+```
+
+EmbeddingGemma is prompt-sensitive. For retrieval documents, Google recommends prefixing document text with `title: {title | "none"} | text: `. The built-in provider currently embeds the plugin's standard semantic input (`title` plus body text), so use a custom embedding provider if you need exact EmbeddingGemma prompt formatting before embeddings are generated.
 
 ## Testing Provider
 
