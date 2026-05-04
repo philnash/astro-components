@@ -107,11 +107,11 @@ export function resolveIntegrationOptions(
   const codegenDir = userOptions.codegenDir
     ? resolvePath(rootDir, userOptions.codegenDir)
     : fileURLToPath(codegenDirUrl);
+  const artifactDir = resolvePath(
+    rootDir,
+    userOptions.artifactDir ?? ".astro-related-content",
+  );
   const generation = {
-    cacheDir: resolvePath(
-      codegenDir,
-      userOptions.generation?.cacheDir ?? join("cache"),
-    ),
     limit: userOptions.generation?.limit ?? 5,
     watch: userOptions.generation?.watch ?? true,
   };
@@ -123,9 +123,10 @@ export function resolveIntegrationOptions(
   requirePositiveInteger("embeddings.batchSize", embeddings.batchSize ?? 1);
 
   return {
+    artifactDir,
     codegenDir,
     collections: resolveCollections(rootDir, collections),
-    dataModulePath: join(codegenDir, "data.ts"),
+    dataFilePath: join(artifactDir, "data.json"),
     embeddings: {
       batchSize: embeddings.batchSize ?? 1,
       input: embeddings,
@@ -133,6 +134,6 @@ export function resolveIntegrationOptions(
     },
     generation,
     rootDir,
-    vectorCachePath: join(generation.cacheDir, "vectors.json"),
+    vectorCachePath: join(artifactDir, "vectors.json"),
   };
 }

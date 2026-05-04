@@ -38,10 +38,10 @@ function isContentFile(
   );
 }
 
-function buildVirtualModuleSource(dataModulePath: string): string {
+function buildVirtualModuleSource(dataFilePath: string): string {
   return `import { getCollection } from "astro:content";
-import { relatedContentData } from ${JSON.stringify(
-    `/@fs/${toPosixPath(dataModulePath)}`,
+import relatedContentData from ${JSON.stringify(
+    `/@fs/${toPosixPath(dataFilePath)}`,
   )};
 
 function normalizeCollectionEntryId(id) {
@@ -89,7 +89,7 @@ function createViteVirtualModulePlugin(state: IntegrationState): Plugin {
         return undefined;
       }
 
-      return buildVirtualModuleSource(state.options.dataModulePath);
+      return buildVirtualModuleSource(state.options.dataFilePath);
     },
     name: `${INTEGRATION_NAME}:virtual-module`,
     resolveId(id) {

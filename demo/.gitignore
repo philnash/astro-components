@@ -3,6 +3,9 @@ dist/
 # generated types
 .astro/
 
+# generated related-content demo artifacts
+.astro-related-content/
+
 # dependencies
 node_modules/
 

@@ -21,10 +21,6 @@ type GenerateRelatedContentHooks = {
   logger?: GenerationLogger;
 };
 
-function buildRuntimeDataModule(data: RelatedContentData): string {
-  return `export const relatedContentData = ${stableStringify(data)};\n`;
-}
-
 function normalizeVector(vector: number[]): number[] {
   const magnitude = Math.sqrt(
     vector.reduce((total, value) => total + value * value, 0),
@@ -215,7 +211,7 @@ export async function generateRelatedContent(
   hooks: GenerateRelatedContentHooks = {},
 ): Promise<GenerateRelatedContentResult> {
   await mkdir(options.codegenDir, { recursive: true });
-  await mkdir(options.generation.cacheDir, { recursive: true });
+  await mkdir(options.artifactDir, { recursive: true });
 
   const provider = options.embeddings.provider;
   const providerContext: EmbeddingProviderContext = {
@@ -288,7 +284,10 @@ export async function generateRelatedContent(
     options.generation.limit,
   );
 
-  await writeFileAtomic(options.dataModulePath, buildRuntimeDataModule(relatedContentData));
+  await writeFileAtomic(
+    options.dataFilePath,
+    `${stableStringify(relatedContentData)}\n`,
+  );
   await writeFileAtomic(
     options.vectorCachePath,
     `${stableStringify({

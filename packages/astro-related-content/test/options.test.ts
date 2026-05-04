@@ -22,8 +22,46 @@ describe("resolveIntegrationOptions", () => {
     assert.equal(options.embeddings.batchSize, 1);
     assert.equal(options.embeddings.provider.name, "transformers");
     assert.equal(
+      options.artifactDir,
+      "/tmp/astro-related-content/project/.astro-related-content",
+    );
+    assert.equal(
+      options.dataFilePath,
+      "/tmp/astro-related-content/project/.astro-related-content/data.json",
+    );
+    assert.equal(
+      options.vectorCachePath,
+      "/tmp/astro-related-content/project/.astro-related-content/vectors.json",
+    );
+    assert.equal(
       options.collections[0]?.dir,
       "/tmp/astro-related-content/project/src/content/posts",
+    );
+  });
+
+  it("resolves a custom artifact directory from the project root", () => {
+    const options = resolveIntegrationOptions(
+      {
+        artifactDir: "src/generated/related-content",
+        collections: [{ collection: "posts" }],
+      },
+      {
+        codegenDirUrl: pathToFileURL("/tmp/astro-related-content/codegen"),
+        root: pathToFileURL("/tmp/astro-related-content/project"),
+      },
+    );
+
+    assert.equal(
+      options.artifactDir,
+      "/tmp/astro-related-content/project/src/generated/related-content",
+    );
+    assert.equal(
+      options.dataFilePath,
+      "/tmp/astro-related-content/project/src/generated/related-content/data.json",
+    );
+    assert.equal(
+      options.vectorCachePath,
+      "/tmp/astro-related-content/project/src/generated/related-content/vectors.json",
     );
   });
 

@@ -36,6 +36,7 @@ import astroRelatedContent from "@philnash/astro-related-content";
 export default defineConfig({
   integrations: [
     astroRelatedContent({
+      artifactDir: ".astro-related-content",
       collections: [{ collection: "articles" }],
     }),
   ],
@@ -53,6 +54,33 @@ const relatedContent = await getRelatedContent("articles", "my-post");
 ```
 
 `getRelatedContent("articles", ...)` resolves real entries from `astro:content`, so each result is typed as `CollectionEntry<"articles">`.
+
+## Generated Artifacts
+
+By default, the integration writes durable artifacts to `.astro-related-content/` in your project root:
+
+- `data.json`: the ranked related-content data used by the runtime virtual module.
+- `vectors.json`: the embedding cache used to avoid regenerating unchanged content vectors.
+
+Commit this directory if you want deploy builds to reuse locally generated embeddings. The deploy will still run the integration during `astro build`, but unchanged content can reuse `vectors.json` instead of downloading models and embedding every item again.
+
+You can choose a different project-relative directory with `artifactDir`:
+
+```js
+import { defineConfig } from "astro/config";
+import astroRelatedContent from "@philnash/astro-related-content";
+
+export default defineConfig({
+  integrations: [
+    astroRelatedContent({
+      artifactDir: "src/generated/related-content",
+      collections: [{ collection: "articles" }],
+    }),
+  ],
+});
+```
+
+The virtual module remains the public API. Application code should import from `virtual:astro-related-content`, not from the generated JSON files directly.
 
 ## Transformers.js Embeddings
 

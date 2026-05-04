@@ -101,7 +101,7 @@ The embedding configuration should support:
 The generation configuration should support:
 
 - `limit`
-- `cacheDir`
+- `artifactDir`
 - `modelCacheDir`
 - `watch`
 
@@ -161,15 +161,17 @@ In build and sync modes, the plugin should:
 
 ## Output Artifacts
 
-The plugin should produce generated artifacts under an integration-owned directory, typically under `.astro/`.
+The plugin should produce durable generated artifacts under an integration-owned directory in the Astro project.
 
 At minimum, the plugin should write:
 
-- runtime related-post data
-- an internal vector cache used for regeneration efficiency
+- runtime related-post data as a durable JSON artifact in the Astro project
+- an internal vector cache as a durable JSON artifact in the Astro project
 - any runtime wrapper artifact needed to back the virtual module
 
 The application should consume the virtual module, not these files directly.
+
+The default artifact directory should be `.astro-related-content/` in the project root, and it should be configurable. Projects may commit this directory so deploy builds can reuse locally generated related-content data and vectors.
 
 ## Embedding Provider Model
 

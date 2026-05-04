@@ -24,13 +24,11 @@ export type ResolvedRelatedContentCollection = {
 };
 
 export type GenerationOptions = {
-  cacheDir?: string;
   limit?: number;
   watch?: boolean;
 };
 
 export type ResolvedGenerationOptions = {
-  cacheDir: string;
   limit: number;
   watch: boolean;
 };
@@ -83,6 +81,7 @@ export type EmbeddingsOptions =
   | CustomEmbeddingsOptions;
 
 export type AstroRelatedContentOptions = {
+  artifactDir?: string;
   codegenDir?: string;
   collections: RelatedContentCollection[];
   embeddings?: EmbeddingsOptions;
@@ -97,9 +96,10 @@ export type ResolvedEmbeddingsOptions = {
 };
 
 export type ResolvedIntegrationOptions = {
+  artifactDir: string;
   codegenDir: string;
   collections: ResolvedRelatedContentCollection[];
-  dataModulePath: string;
+  dataFilePath: string;
   embeddings: ResolvedEmbeddingsOptions;
   generation: ResolvedGenerationOptions;
   rootDir: string;

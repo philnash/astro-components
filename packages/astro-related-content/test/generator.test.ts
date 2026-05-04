@@ -6,20 +6,13 @@ import { describe, it } from "node:test";
 
 import { generateRelatedContent } from "../src/generator.ts";
 import { resolveIntegrationOptions } from "../src/options.ts";
-import type {
-  RelatedContentData,
-  VectorCacheFile,
-} from "../src/types.ts";
+import type { RelatedContentData, VectorCacheFile } from "../src/types.ts";
 import { createFixtureEmbeddingProvider } from "../testing.ts";
 import {
   createTempDirectory,
   removeDirectory,
   writeFiles,
 } from "./helpers.ts";
-
-type DataModule = {
-  relatedContentData: RelatedContentData;
-};
 
 async function createResolvedOptions(
   rootDir: string,
@@ -65,20 +58,25 @@ Vector search and embeddings improve related content ranking for Astro sites.`,
 
       await generateRelatedContent(options);
 
-      const dataModule = (await import(
-        `${pathToFileURL(options.dataModulePath).href}?t=${Date.now()}`
-      )) as DataModule;
+      const relatedContentData = JSON.parse(
+        await readFile(options.dataFilePath, "utf8"),
+      ) as RelatedContentData;
       assert.deepEqual(
-        dataModule.relatedContentData.articles?.["vector-ranking"]?.map(
+        relatedContentData.articles?.["vector-ranking"]?.map(
           (match) => match.id,
         ),
         ["semantic-search", "astro-components"],
       );
-      assert.deepEqual(
-        dataModule.relatedContentData.missing,
-        undefined,
+      assert.deepEqual(relatedContentData.missing, undefined);
+      assert.deepEqual(relatedContentData.articles?.missing, undefined);
+      assert.equal(
+        options.dataFilePath,
+        join(rootDir, ".astro-related-content", "data.json"),
       );
-      assert.deepEqual(dataModule.relatedContentData.articles?.missing, undefined);
+      assert.equal(
+        options.vectorCachePath,
+        join(rootDir, ".astro-related-content", "vectors.json"),
+      );
     } finally {
       await removeDirectory(rootDir);
     }
