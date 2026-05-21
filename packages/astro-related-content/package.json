@@ -1,6 +1,6 @@
 {
   "name": "@philnash/astro-related-content",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "An Astro integration that generates semantically related content for Markdown and MDX sources.",
   "type": "module",
   "exports": {
