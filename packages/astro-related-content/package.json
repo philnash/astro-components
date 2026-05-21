@@ -30,6 +30,7 @@
     "LICENSE",
     "index.ts",
     "testing.ts",
+    "virtual-module.d.ts",
     "src",
     "README.md"
   ],

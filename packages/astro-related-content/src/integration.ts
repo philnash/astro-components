@@ -1,3 +1,5 @@
+import { readFile } from "node:fs/promises";
+
 import type { AstroIntegration } from "astro";
 import type { Plugin } from "vite";
 
@@ -21,6 +23,8 @@ type IntegrationState = {
   options?: ResolvedIntegrationOptions;
   scheduler?: GenerationScheduler;
 };
+
+const virtualModuleTypesUrl = new URL("../virtual-module.d.ts", import.meta.url);
 
 function getErrorMessage(error: unknown): string {
   return error instanceof Error ? error.message : String(error);
@@ -139,6 +143,12 @@ export function createIntegration(
         });
 
         await state.scheduler.runNow({ isWatch: false });
+      },
+      async "astro:config:done"({ injectTypes }) {
+        injectTypes({
+          content: await readFile(virtualModuleTypesUrl, "utf8"),
+          filename: "virtual-module.d.ts",
+        });
       },
       "astro:server:setup"({ logger, server }) {
         if (!state.options?.generation.watch || !state.scheduler) {
