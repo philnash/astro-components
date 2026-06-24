@@ -9,6 +9,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ...
 
+## 0.7.0
+
+### Updated
+
+- Updates dependencies to support Astro v7
+
+## 0.6.0
+
+### Updated
+
+- Updates dependencies to support Astro v6
+
 ## [0.5.0](https://github.com/philnash/astro-components/compare/v0.4.0...v0.5.0) - 2025-02-13
 
 ### Updated

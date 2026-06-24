@@ -14,6 +14,6 @@
     "@astrojs/mdx": "^5.0.0",
     "@philnash/astro-pagination": "file:../packages/astro-pagination",
     "@philnash/astro-related-content": "file:../packages/astro-related-content",
-    "astro": "^6.0.8"
+    "astro": "^7.0.2"
   }
 }
